@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0" # Use a version constraint appropriate for your project
+      version = "~> 3.0"
     }
   }
 }
@@ -11,13 +11,25 @@ provider "azurerm" {
   features {}
 }
 
+# Variáveis para usuário e senha da VM
+variable "admin_username" {
+  description = "Admin username for the VM"
+  type        = string
+}
+
+variable "admin_password" {
+  description = "Admin password for the VM"
+  type        = string
+  sensitive   = true
+}
+
 # 1. Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = "my-terraform-rg"
   location = "francecentral"
 }
 
-# 2. Virtual Network and Subnet
+# 2. Virtual Network e Subnet
 resource "azurerm_virtual_network" "vnet" {
   name                = "my-vnet"
   address_space       = ["10.0.0.0/16"]
@@ -32,7 +44,7 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-# 3. Public IP Address
+# 3. Public IP
 resource "azurerm_public_ip" "publicip" {
   name                = "my-vm-publicip"
   location            = azurerm_resource_group.rg.location
@@ -55,7 +67,7 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-# 5. Network Security Group (to allow SSH)
+# 5. Network Security Group
 resource "azurerm_network_security_group" "nsg" {
   name                = "my-vm-nsg"
   location            = azurerm_resource_group.rg.location
@@ -69,8 +81,8 @@ resource "azurerm_network_security_rule" "ssh_rule" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = "22" # Standard SSH port
-  source_address_prefix       = "*"  # Allow from any IP (Be cautious! Restrict this in production)
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_network_security_group.nsg.resource_group_name
   network_security_group_name = azurerm_network_security_group.nsg.name
@@ -95,17 +107,16 @@ resource "azurerm_network_interface_security_group_association" "nic_nsg_associa
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-
-# 6. The Virtual Machine
+# 6. Virtual Machine usando variáveis
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "my-ubuntu-vm"
   location                        = azurerm_resource_group.rg.location
   resource_group_name             = azurerm_resource_group.rg.name
-  size                            = "Standard_B2S" # Basic VM size
+  size                            = "Standard_B2S"
   network_interface_ids           = [azurerm_network_interface.nic.id]
   disable_password_authentication = false
-  admin_username                  = "azureuser"
-  admin_password                  = "P@sswOrd12345" # **Change this to a strong password and use a variable!**
+  admin_username                  = var.admin_username
+  admin_password                  = var.admin_password
 
   os_disk {
     caching              = "ReadWrite"
@@ -120,7 +131,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 }
 
-# Output the public IP to connect to the VM later
+# Output do IP público
 output "public_ip_address" {
   value = azurerm_public_ip.publicip.ip_address
 }
