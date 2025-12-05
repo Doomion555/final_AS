@@ -1,6 +1,7 @@
 *Final assignment*
 
 [max group of 3 people]
+
 Delivery date: 9 January 2026
 
 Exercise 1
