@@ -17,3 +17,9 @@ Exercise 2:
 3. use Terraform and Ansible (zero manual configuration)
 4. make sure that no passwords are stored in scripts
 5. delivery the code in a github repo
+
+
+
+Para rodar a VM e etc etc -> terraform init (no diretorio) | terraform plan | terraform apply .
+
+Para rodar o ansible -> ansible.playbook playbook.yml
