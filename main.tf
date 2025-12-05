@@ -26,7 +26,7 @@ variable "admin_password" {
 # 1. Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = "my-terraform-rg"
-  location = "francecentral"
+  location = "switzerlandnorth"
 }
 
 # 2. Virtual Network e Subnet
