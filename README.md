@@ -1,3 +1,5 @@
+*Final assignment*
+
 Exercise 1
 1. Fork this repository
 2. in the new repositry, make sure that:
@@ -5,8 +7,7 @@ Exercise 1
    b) make sure passwords are not shown in the Terraform and Ansbile files (they are not visible in the repository)
   
 
-
-Final Exercise:
+Exercise 2:
 1. Create a Linux machine in Azure that will play a DHCP role
 2. use Terraform and Ansible (zero manual configuration)
 3. make sure that no passwords are stored in scripts
