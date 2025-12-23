@@ -20,6 +20,6 @@ Exercise 2:
 
 
 
-Para rodar a VM e etc etc -> terraform init (no diretorio) | terraform plan | terraform apply .
+Para rodar a VM etc (no diretorio) -> terraform init  | terraform plan | terraform apply .
 
-Para rodar o ansible -> ansible-playbook playbook.yml
+Para rodar o ansible -> ansible-playbook -i inventory.ini playbook.yml

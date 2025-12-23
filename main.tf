@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0"
+      version = "2.94.0"
     }
   }
 }
@@ -17,16 +17,17 @@ variable "admin_username" {
   type        = string
 }
 
-variable "admin_password" {
-  description = "Admin password for the VM"
+# Variável de localização. A localização deve ser alterada para uma aceite pelas politicas do Azure
+variable "location" {
+  description = "Azure region"
   type        = string
-  sensitive   = true
+  default     = "France Central"
 }
 
 # 1. Resource Group
 resource "azurerm_resource_group" "rg" {
-  name     = "my-terraform-rg"
-  location = "switzerlandnorth"
+  name     = "my-terraform-rg-2"
+  location = var.location
 }
 
 # 2. Virtual Network e Subnet
@@ -114,9 +115,14 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name             = azurerm_resource_group.rg.name
   size                            = "Standard_B2S"
   network_interface_ids           = [azurerm_network_interface.nic.id]
-  disable_password_authentication = false
+  disable_password_authentication = true
   admin_username                  = var.admin_username
-  admin_password                  = var.admin_password
+
+# O caminho da Chave RSA deve ser alterado para o correto!
+admin_ssh_key {
+  username   = var.admin_username
+  public_key = file("~/.ssh/id_rsa.pub") 
+}
 
   os_disk {
     caching              = "ReadWrite"
