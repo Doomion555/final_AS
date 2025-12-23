@@ -1,25 +1,55 @@
-*Final assignment*
+Mini-Projeto – Administração de Sistemas
 
-team:  max group of 3 people
+Autores: Rodrigo de Jesus Marques (127829) e João Botelho (126991)
+Curso: Redes e Sistemas Informáticos – ESTGA, Universidade de Aveiro
+Data: 20/12/2025
 
-Delivery date: 9 January 2026
+Descrição do Projeto
 
-Exercise 1
-1. Fork this repository
-2. in the new repositry, make sure that:
-   a) a proper index.html file is served by NGINX
-   b) make sure passwords are not shown in the Terraform and Ansbile files (they are not visible in the repository)
-  
+Este projeto demonstra a automação de infraestrutura e configuração de serviços na Microsoft Azure, utilizando Terraform para provisionamento e Ansible para configuração.
 
-Exercise 2:
-1. Create a new repository
-2. Create a Linux machine in Azure that will play a DHCP role (test the configurarion)
-3. use Terraform and Ansible (zero manual configuration)
-4. make sure that no passwords are stored in scripts
-5. delivery the code in a github repo
+Exercício 1: Criação de uma máquina virtual com um servidor web Nginx e uma página customizada (index.html).
 
+Estrutura do Repositório
+FINAL_AS/
+├── ansible/
+│   ├── files/
+│   │   └── index.html
+│   ├── ansible.cfg
+│   ├── inventory.ini
+│   ├── playbook.yml
+│   ├── vault.yml
+│   └── vault_pass.txt
+├── .gitignore
+├── .terraform.lock.hcl
+├── main.tf
+├── terraform.tfvars
+└── README.md
 
+Pré-requisitos
 
-Para rodar a VM etc (no diretorio) -> terraform init  | terraform plan | terraform apply .
+Para executar o projeto corretamente, é necessário:
+ - Terraform instalado
+ - Ansible instalado
+ - Conta Azure configurada
+ - Azure CLI autenticado
+ - Permissões para criar recursos na Azure
+ - Chave SSH (RSA) no ambiente local com permissões 600
 
-Para rodar o ansible -> ansible-playbook -i inventory.ini playbook.yml
+Observação: Escolher uma região elegível na Azure para criar a VM, conforme definido no main.tf.
+
+Passos para Executar
+1. Inicializar Terraform:
+terraform init
+
+2. Validar plano de criação:
+terraform plan
+
+3. Aplicar o plano:
+terraform apply
+
+4. Alterar o IP público no ansible/inventory.ini para o da VM criada.
+
+5. Executar o playbook Ansible:
+ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+

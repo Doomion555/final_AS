@@ -11,12 +11,6 @@ provider "azurerm" {
   features {}
 }
 
-# Variáveis para usuário e senha da VM
-variable "admin_username" {
-  description = "Admin username for the VM"
-  type        = string
-}
-
 # Variável de localização. A localização deve ser alterada para uma aceite pelas politicas do Azure
 variable "location" {
   description = "Azure region"
@@ -108,7 +102,7 @@ resource "azurerm_network_interface_security_group_association" "nic_nsg_associa
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-# 6. Virtual Machine usando variáveis
+# 6. Virtual Machine com username hardcoded
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "my-ubuntu-vm"
   location                        = azurerm_resource_group.rg.location
@@ -116,13 +110,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   size                            = "Standard_B2S"
   network_interface_ids           = [azurerm_network_interface.nic.id]
   disable_password_authentication = true
-  admin_username                  = var.admin_username
+  admin_username                  = "azureuser"
 
-# O caminho da Chave RSA deve ser alterado para o correto!
-admin_ssh_key {
-  username   = var.admin_username
-  public_key = file("~/.ssh/id_rsa.pub") 
-}
+  admin_ssh_key {
+    username   = "azureuser"
+    public_key = file("~/.ssh/id_rsa.pub") 
+  }
 
   os_disk {
     caching              = "ReadWrite"
