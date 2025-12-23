@@ -10,22 +10,6 @@ Este projeto demonstra a automação de infraestrutura e configuração de servi
 
 Exercício 1: Criação de uma máquina virtual com um servidor web Nginx e uma página customizada (index.html).
 
-Estrutura do Repositório
-FINAL_AS/
-├── ansible/
-│   ├── files/
-│   │   └── index.html
-│   ├── ansible.cfg
-│   ├── inventory.ini
-│   ├── playbook.yml
-│   ├── vault.yml
-│   └── vault_pass.txt
-├── .gitignore
-├── .terraform.lock.hcl
-├── main.tf
-├── terraform.tfvars
-└── README.md
-
 Pré-requisitos
 
 Para executar o projeto corretamente, é necessário:
