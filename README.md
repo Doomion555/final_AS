@@ -37,3 +37,5 @@ terraform apply
 5. Executar o playbook Ansible:
 ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
 
+
+Neste projeto foi implementada a autenticação por chave RSA, em vez de credenciais com senha, devido à maior segurança que oferece e à facilidade de automação que proporciona. Chaves longas são praticamente impossíveis de adivinhar, permitindo que o acesso às máquinas seja seguro sem comprometer a execução automática de scripts. Em contraste, a autenticação por senha é mais simples de implementar e não requer arquivos locais, mas apresenta menor segurança e, para automação, seria necessário armazenar a senha em algum local, aumentando o risco de exposição.
